@@ -1,0 +1,639 @@
+lambdanan values, replace:-
+df = pd.read_csv("F:\\Jupyter_notebook\\csv_xlxs_File\\stock_data.csv",  header=1, na_values={
+        'eps': ['not available'],
+        'revenue': [-1],
+        'people': ['not available','n.a.'],
+        'price':['n.a.']
+    })
+df
+
+-----------------------------------------------------gor-------------------->"handling_missing_data_replace"
+replace function, (but dont know, it is not working)
+
+
+new_df = df.replace(-99999, value=np.NaN)
+new_df
+------------------->
+new_df
+----------->
+new_df = df.replace({
+        'temperature': -99999,
+        'windspeed': -99999,
+        'event': '0'
+    }, np.NaN)
+new_df
+------------------>
+new_df = df.replace({
+        -99999: np.nan,
+        'no event': 'Sunny',
+    })
+new_df
+------------------------------------------------------------------------->(2- BlackFriday EDA And Feature Engineering)
+------>map function(same work as replace function) 
+df['Gender']=df['Gender'].map({'F':0,'M':1})
+df.head()
+
+----> LABEL ENCODING
+#LabelEncoder OR we can do one_hot_encoding
+
+from sklearn.preprocessing import LabelEncoder
+labelencoder=LabelEncoder()
+
+final_df['Airline']=labelencoder.fit_transform(final_df['Airline'])
+final_df['Source']=labelencoder.fit_transform(final_df['Source'])
+
+
+
+------------>
+
+
+from sklearn.preprocessing import LabelEncoder
+labelencoder=LabelEncoder()
+
+inputs['company']=labelencoder.fit_transform(inputs['company'])
+inputs['degree']=labelencoder.fit_transform(inputs['degree'])
+inputs['job']=labelencoder.fit_transform(inputs['job'])
+
+
+------------------->one_hot_encoding
+
+take refrence from  -->"one_hot_encoding"
+
+
+------->REPLACE Function
+
+
+df['Stay_In_Current_City_Years']=df['Stay_In_Current_City_Years'].str.replace('+','')
+
+
+----->APPEND 
+df=df_train.append(df_test)
+
+------>DUMMIES
+pd.get_dummies(df['Age'])
+
+-------->UNIQUE
+df['Product_Category_2'].unique()
+
+------>FILLNA
+df['Product_Category_2']=df['Product_Category_2'].fillna(df['Product_Category_2'].mode()[F0])
+
+cols_to_fill_zero = ['Propertycount', 'Distance', 'Bedroom2', 'Bathroom', 'Car']
+dataset[cols_to_fill_zero] = dataset[cols_to_fill_zero].fillna(0)
+dataset['BuildingArea'] = dataset['BuildingArea'].fillna(dataset.BuildingArea.mean())
+
+--->BAR CHART
+sns.b
+arplot('Age','Purchase',hue='Gender',data=df)
+
+
+---->STRING REPLACE
+df['Stay_In_Current_City_Years']=df['Stay_In_Current_City_Years'].str.replace('+','')
+
+---->
+
+
+-------------->DATATYPE change (into-->   int)
+
+##convert object into integers
+df['Stay_In_Current_City_Years']=df['Stay_In_Current_City_Years'].astype(int)
+  
+------->TRAIN-TEST Split  
+  ### train test split
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(
+     X, y, test_size=0.33, random_state=42)
+  
+----------------------------------------------------------------------------->3-Flight_Prediction
+making new column from whole date, and giing value to it
+#SPLIT Function
+final_df['Date']=final_df['Date_of_Journey'].str.split('/').str[0]
+24/03/2019 it will give 24 for [0],,03 for [1],, 2019 for [2]
+
+--------->DROP Function
+
+final_df.drop('Date_of_Journey',axis=1,inplace=True)
+
+
+--------->SPLIT AND DATA TYE CHANGE
+final_df['Dept_hour']=final_df['Dep_Time'].str.split(':').str[0]
+final_df['Dept_min']=final_df['Dep_Time'].str.split(':').str[1]
+final_df['Dept_hour']=final_df['Dept_hour'].astype(int)
+final_df['Dept_min']=final_df['Dept_min'].astype(int)
+final_df.drop('Dep_Time',axis=1,inplace=True)
+
+
+
+---------------------------------------------------------------------------------------> 1- Zomato Dataset EDA And Feature Engineering
+MERGE
+final_df=pd.merge(df,df_country, on="Country Code",how="left")
+------->
+
+country_names=final_df.Country.value_counts().index
+country_val=final_df.Country.value_counts().values
+
+------->PIE Chart
+plt.pie(country_val[:3],labels=country_names[:3],autopct="%1.2f%%")
+
+-----> GROUP BY
+rating=final_df.groupby(['Aggregate rating', 'Rating color', 'Rating text']).size()
+
+
+------> Reset Index Name
+ratings=final_df.groupby(['Aggregate rating','Rating color','Rating text']).size().reset_index().rename(columns={0:'Rating Count'})
+
+
+-------->BAR cHART (when we want to give color acc. to our choice, then we use "palette")
+sns.barplot(x="Aggregate rating",y="Rating Count",hue='Rating color',data=ratings,palette=['blue','red','orange','yellow','green','green'])
+
+
+
+---------------------------------------------------------------------------------------------------------------> 1_matplotlib_introduction
+
+---> PLOT 
+x=[1,2,3,4,5,6,7]
+y=[50,51,52,48,47,49,46]
+
+plt.xlabel('Day')
+plt.ylabel('Temperature')
+plt.title('Weather')
+
+plt.plot(x,y,color='green',linewidth=5, linestyle='dotted')
+       OR
+plt.plot(y,x,'b+--')
+
+------------------------------------------------------------------------------------------------------>3_legends_grid_axes_Flabels
+
+LEGEND -> it is the box in the grap which show which line is associated to what
+
+plt.legend(loc='best')
+
+
+
+
+------------------------------------------------------------------------------------------------------>6_pie_chart
+
+plt.axis("equal")
+plt.pie(exp_vals,labels=exp_labels, shadow=True, autopct='%0.3f%%',radius=1.5,explode=[0,0,0,0.1,0.2])
+
+
+
+
+------------------------------------------------------------------------------------------------------>5_histogram
+ 
+blood_sugar = [113, 85, 90, 150, 149, 88, 93, 115, 135, 80, 77, 82, 129]
+plt.hist(blood_sugar, rwidth=0.8),,,     [,bins=4 , color='g, ,histtype='step',  orientation='horizontal',]
+
+
+----->
+
+
+blood_sugar_men = [113, 85, 90, 150, 149, 88, 93, 115, 135, 80, 77, 82, 129]
+blood_sugar_women = [67, 98, 89, 120, 133, 150, 84, 69, 89, 79, 120, 112, 100]
+
+plt.hist([blood_sugar_men,blood_sugar_women], bins=[80,100,125,150], rwidth=0.95, color=['green','orange'],label=['men','women'])
+plt.legend()
+
+
+--------------------------------------------------------------------------------------->
+RENAME a COLUMN
+
+df.rename(columns={'per capita income (US$)' :'per_capita_income'})
+
+------------------------------------------------------------------------------------------> MACHINE_LEARNING 1_linear_regression
+LINEAR REGRESSION
+
+from sklearn import linear_model
+
+# Create linear regression object
+reg = linear_model.LinearRegression()
+reg.fit(new_df,price)
+
+-------------------------------------------------->16_L1 and L2 Regularization
+----->Using Ridge  and Lasso
+from sklearn.linear_model import Ridge
+ridge_reg= Ridge(alpha=50, max_iter=100, tol=0.1)
+ridge_reg.fit(train_X, train_y)
+ridge_reg.score(test_X, test_y)
+
+
+from sklearn import linear_model
+lasso_reg = linear_model.Lasso(alpha=50, max_iter=100, tol=0.1)
+lasso_reg.fit(train_X, train_y)
+lasso_reg.score(test_X, test_y)
+lasso_reg.score(train_X, train_y)
+
+---------> coefficient
+reg.coef_
+------> intercept
+reg.intercept_
+
+------------>prediction
+
+reg.predict([[5000]])  # for single variable
+reg.predict([[3000, 3, 40]])   # for multi variable
+
+
+
+
+-------------------------------------------------------------------------> Hiring_linear_regression_multivariate
+when we have to convert words to no. (one->1, thee->3)
+
+from word2number import w2n
+df.experience = df.experience.apply(w2n.word_to_num)
+
+-------> FLOOR/ INITIAL VALUE
+
+
+import math
+median_test_score = math.floor(d['test_score(out of 10)'].mean())
+
+
+------------------------------------------------------------------------------>4_save_and_load_model_using_pickle
+*Pickle concept
+*joblib
+-----------------------------> CONCAT
+df_new = pd.concat([df,df_test],axis='columns')
+
+
+---------------------------------------------------------------------------------->train_test_split
+X = df[['Mileage','Age(yrs)']]
+y = df['Sell Price($)']
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.3) 
+
+---------------------------------------------------------------------------------->7_logistic_regression_exercise
+#Barchart(here salary hast three diff. category high, med, low and left has two category og YES/NO,)
+this crosstab plot all these very well in a good manner
+
+pd.crosstab(df.salary,df.left).plot(kind='bar')
+
+---------------------------------------------------------------------------------->8_logistic_regression_multiclass
+------->confusion_matrix
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(y_test, y_predicted)
+cm
+
+
+-------> heatmap
+
+import seaborn as sns
+plt.figure(figsize = (5,3))
+sns.heatmap(cm, annot=True)
+plt.xlabel('Predicted')
+plt.ylabel('Truth')
+
+
+
+--------------------------------------------------------------------------------->9_Decision_Tree_Practical_Implementation(krish naik)
+-----> accuracy score and classification_report
+
+    from sklearn.metrics import parameter,classification_report
+score=accuracy_score(y_pred,y_test)
+print(score)
+print(classification_report(y_pred,y_test))
+
+----------------------------------------->9_decision_tree
+
+from sklearn import tree
+model = tree.DecisionTreeClassifier()
+model.fit(inputs, target)
+model.score(inputs,target)
+
+---------------------------------------------------------------------------------->9_Decision_Tree_prepruning(krish naik)
+--------------> dataset from sklearn
+from sklearn.datasets import load_iris
+iris=load_iris()
+dir(iris)
+
+df = pd.DataFrame(iris.data,columns=iris.feature_names)
+df.head()
+or
+
+import seaborn as sns
+df=sns.load_dataset('iris')
+------------------>GridSearchCV
+## Preprunning
+-->parameters for decision tree
+parameter={
+ 'criterion':['gini','entropy','log_loss'],
+  'splitter':['best','random'],
+  'max_depth':[1,2,3,4,5],
+  'max_features':['auto', 'sqrt', 'log2']}
+
+---->or
+
+parameter = {'max_depth':[3,5,7,10,15],
+          'min_samples_leaf':[3,5,10,15,20],
+          'min_samples_split':[8,10,12,18,20,16],
+          'criterion':['gini','entropy']}
+          
+---->can be used for SVM
+parameter = { 'C':[0.1,1,100,1000],
+               'kernel':['rbf','poly','sigmoid','linear'],
+               'degree':[1,2,3,4,5,6]}
+
+from sklearn.model_selection import GridSearchCV
+treemodel=DecisionTreeClassifier()
+cv=GridSearchCV(treemodel,param_grid=parameter,cv=5,n_jobs=-1,scoring='accuracy',verbose=2)
+# n_jobs it is require to use your computer internal power(it activate all your core of processors),,verbose show extra information during the running of that gridsearch
+cv.fit(X_train,y_train)
+cv.best_params_
+cv.cv_results_
+df = pd.DataFrame(cv.cv_results_)  #if we want to see the result in form of table
+df
+df[['param_C','param_kernel','mean_test_score']] ##to see the data in case of SVM ALGORITHM
+
+------------------------------------------------------------------------------------------------------------------->
+15_grid_search  (you get every thing about gridsearchcv and cross validation)(must see)
+------------------------------------------------------------------------------------------------------------------->
+
+from sklearn import svm
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_val_score
+
+model_params = {
+    'svm': {
+        'model': svm.SVC(gamma='auto'),
+        'params' : {                            //## here we can increse the no. of parameter according to our choices
+           'C':[0.1,1,100,1000],
+               'kernel':['rbf','poly','sigmoid','linear'],
+               'degree':[1,2,3,4,5,6]
+        }  
+    },
+    'random_forest': {
+        'model': RandomForestClassifier(),
+        'params' : {
+            'n_estimators': [1,5,10],     #mean no. of tree in randomforest
+            'max_depth':[3,5,7,10,15],
+          'min_samples_leaf':[3,5,10,15,20],
+          'min_samples_split':[8,10,12,18,20,16],         
+          'criterion':['gini','entropy','log_loss'],
+          'splitter':['best','random'],
+          'max_features':['auto', 'sqrt', 'log2']
+        }
+    },
+    'logistic_regression' : {
+        'model': LogisticRegression(solver='liblinear',multi_class='auto'),
+        'params': {
+            'C': [1,5,10]
+        }
+    }
+}
+
+ ## here basically we run a loop and in final we get about gridserach cv result of every model parameters
+scores = [] 
+for model_name, mp in model_params.items():
+    clf =  GridSearchCV(mp['model'], mp['params'], cv=5, return_train_score=False)
+    clf.fit(iris.data, iris.target)
+   score_cross_val= cross_val_score(mp['model'], digits.data, digits.target,cv=5)
+
+    scores.append({
+        'model': model_name,
+        'best_score': clf.best_score_,
+        'best_params': clf.best_params_,
+        'cross_val_Score': score_cross_val
+    })
+
+    
+df = pd.DataFrame(scores,columns=['model','best_score','best_params','cross_val_Score'])
+df
+
+
+----> df (what we get, by running whole cod here)
+model	best_score	best_params
+0	svm	0.980000	{'C': 1, 'kernel': 'rbf'}
+1	random_forest	0.953333	{'n_estimators': 5}
+2	logistic_regression	0.966667	{'C': 5}
+
+
+
+------------->RandomizedSearchCV
+from sklearn.model_selection import RandomizedSearchCV
+rs=RandomizedSearchCV(treemodel,param_grid=parameter,n_iter=100,cv=5,scoring='accuracy')
+rs.fit(X_train,y_train)
+rs.best_params_
+rs.cv_results_
+
+---------------------------------------------------------------------------------->10_svm
+----------------->lambda function / Map Function
+df['flower_name'] =df.target.apply(lambda x: iris.target_names[x])
+df.head()
+
+--------------------------> scatter plot
+plt.xlabel('Sepal Length')
+plt.ylabel('Sepal Width')
+plt.scatter(df0['sepal length (cm)'], df0['sepal width (cm)'],color="green",marker='+')
+plt.scatter(df1['sepal length (cm)'], df1['sepal width (cm)'],color="blue",marker='.')
+
+
+
+---------------------------------------------------------------------------------->10_SVM Kernelss Implementation
+---------->3D scatter plot
+import plotly.express as px
+
+fig = px.scatter_3d(df, x='X1', y='X2', z='X1*X2',
+              color='Y')
+fig.show()
+
+--------------> circle type data set
+code->also available in the jupyter notebook 
+
+
+
+---------------------------------------------------------------------------------->11_random_forest
+------------->dataset images
+%matplotlib inline
+import matplotlib.pyplot as plt
+plt.gray() 
+for i in range(4):
+    plt.matshow(digits.images[i])
+
+--------------->sklearn import
+from sklearn.ensemble import RandomForestClassifier
+model = RandomForestClassifier()
+model.fit(X_train, y_train)
+
+
+---------------------------------------------------------------------------------------------------------->12_k_fold
+---------> different Model of Machine Learning
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
+import numpy as np
+from sklearn.datasets import load_digits
+import matplotlib.pyplot as plt
+digits = load_digits()
+
+from sklearn.model_selection import train_test_split
+X_train, X_test, y_train, y_test = train_test_split(digits.data,digits.target,test_size=0.3)
+
+
+lr = LogisticRegression(solver='liblinear',multi_class='ovr')
+lr.fit(X_train, y_train)
+lr.score(X_test, y_test)
+
+svm = SVC(gamma='auto')
+svm.fit(X_train, y_train)
+svm.score(X_test, y_test)
+
+rf = RandomForestClassifier(n_estimators=40)
+rf.fit(X_train, y_train)
+rf.score(X_test, y_test)
+
+--------->K fold
+from sklearn.model_selection import KFold
+kf = KFold(n_splits=3)
+kf
+
+for train_index, test_index in kf.split([1,2,3,4,5,6,7,8,9]):
+    print(train_index, test_index)
+    [3 4 5 6 7 8] [0 1 2]
+    [0 1 2 6 7 8] [3 4 5]
+    [0 1 2 3 4 5] [6 7 8]
+
+--------->Stratified KFold 
+from sklearn.model_selection import StratifiedKFold
+folds = StratifiedKFold(n_splits=3)
+
+----------> cross validation
+
+    from sklearn.model_selection import cross_val_score
+
+#Logistic regression model performance using cross_val_score
+cross_val_score(LogisticRegression(solver='liblinear',multi_class='ovr'), digits.data, digits.target,cv=5)
+
+#svm model performance using cross_val_score
+cross_val_score(SVC(gamma='auto'), digits.data, digits.target,cv=3)
+
+#random forest performance using cross_val_score
+cross_val_score(RandomForestClassifier(n_estimators=40),digits.data, digits.target,cv=3)
+
+--> Average of accuracy of particular model
+scores1 = cross_val_score(RandomForestClassifier(n_estimators=5),digits.data, digits.target, cv=10)
+np.average(scores1)
+
+---------------------------------->9_Decision_Tree_postpruning(krish naik)
+----------> plot tree
+from sklearn import tree
+plt.figure(figsize=(15,10))
+tree.plot_tree(treemodel,filled=True)
+
+-------------------------------------------> Deicsion Tree Regression And Cross Validation
+from sklearn.tree import DecisionTreeRegressor
+regressor=DecisionTreeRegressor()
+regressor.fit(X_train,y_train)
+
+
+-------> score
+from sklearn.metrics import r2_score
+score=r2_score(y_pred,y_test)
+
+
+-------------------------------------------------------------->13_kmeans_tutorial  (k mean algorithm)
+
+from sklearn.cluster import KMeans
+km = KMeans(n_clusters=3) #n_clusters is used As "K"
+y_predicted = km.fit_predict(df[['Age','Income($)']])
+y_predicted
+
+----->
+km.cluster_centers_
+# it give the coordinates of the centeroid 
+
+-------> plotting coordinates of centeroid on scatter plot
+
+plt.scatter(km.cluster_centers_[:,0],km.cluster_centers_[:,1],color='purple',marker='*',label='centroid')
+
+
+----------------> for scalling (when value are not scaled properly) 
+from sklearn.preprocessing import MinMaxScaler #(for scaling)
+scaler = MinMaxScaler()
+
+scaler.fit(df[['Income($)']])
+df['Income($)'] = scaler.transform(df[['Income($)']])
+
+-----------> for elbow plot of (k mean algorithm)
+
+sse = [] 
+k_rng = range(1,10)
+for k in k_rng:
+    km = KMeans(n_clusters=k)
+    km.fit(df[['Age','Income($)']])
+    sse.append(km.inertia_)
+    
+    plt.xlabel('K')
+plt.ylabel('Sum of squared error')
+plt.plot(k_rng,sse)
+
+
+
+
+-------------------------------> is any NA value is available or not??
+inputs.columns[inputs.isna().any()]
+
+
+
+
+--------------------------------------------__>14_naive_bayes_1_titanic_survival_prediction
+--->naive bayes
+from sklearn.naive_bayes import GaussianNB
+model = GaussianNB()
+
+----->prediction of score in term of probability
+model.predict_proba(X_test[:10])
+
+
+
+
+-------------------------------------------->14_naive_bayes_2_email_spam_filter
+-->naive Bayes
+
+from sklearn.feature_extraction.text import CountVectorizer
+v = CountVectorizer()
+
+
+from sklearn.naive_bayes import MultinomialNB
+model = MultinomialNB()
+
+
+from sklearn.pipeline import Pipeline
+clf = Pipeline([
+    ('vectorizer', CountVectorizer()),
+    ('nb', MultinomialNB())
+])
+
+clf.fit(X_train, y_train)
+    clf.score(X_test,y_test)
+
+emails = [
+    'Hey mohan, can we get together to watch footbal game tomorrow?',
+    'Upto 20% discount on parking, exclusive offer just for you. Dont miss this reward!'
+]
+
+clf.predict(emails)
+
+
+
+-------------------------------->14_naive_bayes_2_email_spam_filter
+----->lambda apply
+df['spam']=df['Category'].apply(lambda x: 1 if x=='spam' else 0)
+df.head()
+
+
+
+
+
+-------------------------------------------------------------------------------------------------->15_Hyper Parameter Optimization (go through the file)
+
+Bayesian Optimization
+Optuna
+Genetic Algorithms (TPOT Classifier)
+
+
+-----------------------------------------------------------------------_____> to remove warningsF
+# Suppress Warnings for clean notebook
+import warnings
+warnings.filterwarnings('ignore')
